@@ -124,4 +124,22 @@ platform :android do
         )
         upload_to_play_store
     end
+
+    lane :screenshots do
+        gradle(task: 'clean', project_dir: 'android/')
+        gradle(
+          task: 'assemble',
+          build_type: 'Debug',
+          project_dir: 'android/',
+        )
+        gradle(
+          task: 'assemble',
+          build_type: 'AndroidTest',
+          project_dir: 'android/',
+        )
+        capture_android_screenshots(
+            app_apk_path: "android/app/build/outputs/apk/debug/app-debug.apk",
+            tests_apk_path: "android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk"
+        )
+    end
 end
